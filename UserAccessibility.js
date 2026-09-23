@@ -1020,19 +1020,19 @@ class AccessibilityWidget {
                     }
                 </style>
                 <div class="asw-tts-ctrls">
-                    <button class="asw-tts-act-btn asw-btn-prev" title="Previous (Alt + Left)">
+                    <button class="asw-tts-act-btn asw-btn-prev" title="Previous (← Left Arrow or Alt + ←)" aria-label="Previous Sentence (Left Arrow or Alt + Left)">
                         <span class="material-icons-round" style="font-size:20px;">skip_previous</span>
                     </button>
-                    <button class="asw-tts-act-btn asw-tts-play-main asw-btn-play" title="Play / Pause (Alt + Space)">
+                    <button class="asw-tts-act-btn asw-tts-play-main asw-btn-play" title="Play / Pause (Space or Alt + Space)" aria-label="Play or Pause (Space)">
                         <span class="material-icons-round" style="font-size:24px;">pause</span>
                     </button>
-                    <button class="asw-tts-act-btn asw-btn-next" title="Next (Alt + Right)">
+                    <button class="asw-tts-act-btn asw-btn-next" title="Next (→ Right Arrow or Alt + →)" aria-label="Next Sentence (Right Arrow or Alt + Right)">
                         <span class="material-icons-round" style="font-size:20px;">skip_next</span>
                     </button>
-                    <button class="asw-tts-speed-badge asw-btn-speed" title="Change Speed">
+                    <button class="asw-tts-speed-badge asw-btn-speed" title="Change Speed" aria-label="Reading Speed">
                         <span class="asw-speed-lbl">1.0x</span>
                     </button>
-                    <button class="asw-tts-act-btn asw-btn-stop" title="Close Reader">
+                    <button class="asw-tts-act-btn asw-btn-stop" title="Close Reader (Esc)" aria-label="Close Screen Reader (Escape)">
                         <span class="material-icons-round" style="font-size:18px;">close</span>
                     </button>
                 </div>
@@ -1212,20 +1212,35 @@ class AccessibilityWidget {
             }
         });
 
-        // Keyboard hotkeys for screen reader navigation
-        window.addEventListener('keydown', (e) => {
+        // Keyboard hotkeys for screen reader navigation (Arrows, Alt+Arrows, Space, Escape)
+        this._ttsKeyHandler = (e) => {
             if (!this.isTtsRunning) return;
-            if (e.altKey && e.key === 'ArrowRight') {
+
+            const active = document.activeElement;
+            const isTyping = active && (['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName) || active.isContentEditable);
+
+            // Next sentence: ArrowRight or Alt + ArrowRight
+            if ((e.altKey && e.key === 'ArrowRight') || (!isTyping && !e.altKey && !e.ctrlKey && !e.metaKey && e.key === 'ArrowRight')) {
                 e.preventDefault();
                 this.ttsNext();
-            } else if (e.altKey && e.key === 'ArrowLeft') {
+            }
+            // Previous sentence: ArrowLeft or Alt + ArrowLeft
+            else if ((e.altKey && e.key === 'ArrowLeft') || (!isTyping && !e.altKey && !e.ctrlKey && !e.metaKey && e.key === 'ArrowLeft')) {
                 e.preventDefault();
                 this.ttsPrev();
-            } else if (e.altKey && e.key === ' ') {
+            }
+            // Play / Pause: Space or Alt + Space
+            else if ((e.altKey && (e.key === ' ' || e.code === 'Space')) || (!isTyping && !e.altKey && !e.ctrlKey && !e.metaKey && (e.key === ' ' || e.code === 'Space'))) {
                 e.preventDefault();
                 this.ttsTogglePlay();
             }
-        });
+            // Stop / Close: Escape
+            else if (e.key === 'Escape') {
+                e.preventDefault();
+                this.stopScreenReader();
+            }
+        };
+        window.addEventListener('keydown', this._ttsKeyHandler);
     }
 
     speak(text) {
@@ -1325,6 +1340,9 @@ class AccessibilityWidget {
         }
         if (this._keyHandler) {
             window.removeEventListener('keydown', this._keyHandler);
+        }
+        if (this._ttsKeyHandler) {
+            window.removeEventListener('keydown', this._ttsKeyHandler);
         }
     }
 }

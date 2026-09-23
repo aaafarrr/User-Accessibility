@@ -117,6 +117,11 @@ Instant eye-comfort adjustments for dim lighting and specialized readable typogr
 ### 🗣️ 3. Smart Screen Reader with UserWay-Style Navigable Player
 Navigable floating player bar featuring Next/Prev controls, transition chimes, reading speed selector, live soundwaves, and illuminated paragraph target highlight:
 
+- **Next sentence:** <kbd>→</kbd> (Right Arrow) or <kbd>Alt + →</kbd>
+- **Previous sentence:** <kbd>←</kbd> (Left Arrow) or <kbd>Alt + ←</kbd>
+- **Play / Pause:** <kbd>Space</kbd> or <kbd>Alt + Space</kbd>
+- **Close Reader:** <kbd>Esc</kbd>
+
 <p align="center">
   <img src="./assets/tts.png" alt="Smart Screen Reader Player Bar in Action" width="100%" style="border-radius: 10px; border: 1px solid #cbd5e1; box-shadow: 0 8px 24px rgba(0,0,0,0.12);" />
 </p>
