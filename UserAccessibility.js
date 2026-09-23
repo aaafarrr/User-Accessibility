@@ -135,12 +135,13 @@ class AccessibilityWidget {
 
     setupKeyboardShortcuts() {
         // WCAG 2.1 Keyboard Accessible Shortcut: Alt + A to toggle widget
-        window.addEventListener('keydown', (e) => {
+        this._keyHandler = (e) => {
             if (e.altKey && (e.key === 'a' || e.key === 'A')) {
                 e.preventDefault();
                 this.toggleMenu();
             }
-        });
+        };
+        window.addEventListener('keydown', this._keyHandler);
     }
 
     playAudioCue(type = 'next') {
@@ -594,22 +595,23 @@ class AccessibilityWidget {
             css += `html, body, p, a, h1, h2, h3, h4, h5, h6, li, span { font-size: calc(1rem * var(--asw-font-zoom, 1)) !important; }`;
         }
 
-        // Typography adjustments (isolated from widget controls)
-        if (state['font-weight']) css += `body *:not(.asw-wrapper):not(.asw-wrapper *):not(.asw-floating):not(.asw-floating *) { font-weight: 700 !important; }`;
-        if (state['line-height']) css += `body *:not(.asw-wrapper):not(.asw-wrapper *):not(.asw-floating):not(.asw-floating *) { line-height: 2.2 !important; }`;
-        if (state['letter-spacing']) css += `body *:not(.asw-wrapper):not(.asw-wrapper *):not(.asw-floating):not(.asw-floating *) { letter-spacing: 0.15em !important; }`;
-        if (state['word-spacing']) css += `body *:not(.asw-wrapper):not(.asw-wrapper *):not(.asw-floating):not(.asw-floating *) { word-spacing: 0.35em !important; }`;
-        if (state['readable-font']) css += `body *:not(.asw-wrapper):not(.asw-wrapper *):not(.asw-floating):not(.asw-floating *) { font-family: 'OpenDyslexic', 'Comic Sans MS', Arial, sans-serif !important; }`;
+        // Typography adjustments (isolated from widget controls using high-performance grouped selector)
+        const iso = ':not(.asw-wrapper, .asw-wrapper *, .asw-floating, .asw-floating *, #asw-tts-player, #asw-tts-player *, #asw-statement-dialog, #asw-statement-dialog *)';
+        if (state['font-weight']) css += `body *${iso} { font-weight: 700 !important; }`;
+        if (state['line-height']) css += `body *${iso} { line-height: 2.2 !important; }`;
+        if (state['letter-spacing']) css += `body *${iso} { letter-spacing: 0.15em !important; }`;
+        if (state['word-spacing']) css += `body *${iso} { word-spacing: 0.35em !important; }`;
+        if (state['readable-font']) css += `body *${iso} { font-family: 'OpenDyslexic', 'Comic Sans MS', Arial, sans-serif !important; }`;
 
         // Text alignment
-        if (state['align-left']) css += `body *:not(.asw-wrapper):not(.asw-wrapper *):not(.asw-floating):not(.asw-floating *) { text-align: left !important; }`;
-        if (state['align-center']) css += `body *:not(.asw-wrapper):not(.asw-wrapper *):not(.asw-floating):not(.asw-floating *) { text-align: center !important; }`;
-        if (state['align-right']) css += `body *:not(.asw-wrapper):not(.asw-wrapper *):not(.asw-floating):not(.asw-floating *) { text-align: right !important; }`;
-        if (state['align-justify']) css += `body p, body li, body span:not(.asw-wrapper *) { text-align: justify !important; }`;
+        if (state['align-left']) css += `body *${iso} { text-align: left !important; }`;
+        if (state['align-center']) css += `body *${iso} { text-align: center !important; }`;
+        if (state['align-right']) css += `body *${iso} { text-align: right !important; }`;
+        if (state['align-justify']) css += `body p${iso}, body li${iso}, body span${iso} { text-align: justify !important; }`;
 
         // Content Highlighting
-        if (state['highlight-title']) css += `h1:not(.asw-head-title), h2, h3, h4, h5, h6 { outline: 3px solid ${this.config.themeColor} !important; outline-offset: 4px !important; background: rgba(${this.hexToRgb(this.config.themeColor)}, 0.12) !important; }`;
-        if (state['highlight-links']) css += `a:not(.asw-wrapper *):not(.asw-floating *) { outline: 3px solid #f59e0b !important; outline-offset: 2px !important; background: rgba(245, 158, 11, 0.12) !important; text-decoration: underline !important; }`;
+        if (state['highlight-title']) css += `h1:not(.asw-head-title), h2${iso}, h3${iso}, h4${iso}, h5${iso}, h6${iso} { outline: 3px solid ${this.config.themeColor} !important; outline-offset: 4px !important; background: rgba(${this.hexToRgb(this.config.themeColor)}, 0.12) !important; }`;
+        if (state['highlight-links']) css += `a${iso} { outline: 3px solid #f59e0b !important; outline-offset: 2px !important; background: rgba(245, 158, 11, 0.12) !important; text-decoration: underline !important; }`;
 
         // WCAG 2.4.7 Focus Outline Visible
         if (state['focus-outline']) {
@@ -758,8 +760,8 @@ class AccessibilityWidget {
         if (htmlFilter) css += `html { filter: ${htmlFilter} !important; }`;
 
         // Sensory & Distraction reduction
-        if (state['hide-images']) css += `img, svg:not(.asw-trigger-btn svg), [style*="background-image"] { visibility: hidden !important; opacity: 0 !important; }`;
-        if (state['stop-animations']) css += `body *:not(.asw-wrapper):not(.asw-wrapper *):not(.asw-floating):not(.asw-floating *) { transition: none !important; animation: none !important; scroll-behavior: auto !important; }`;
+        if (state['hide-images']) css += `img${iso}, svg${iso}:not(.asw-trigger-btn svg), [style*="background-image"]${iso} { visibility: hidden !important; opacity: 0 !important; }`;
+        if (state['stop-animations']) css += `body *${iso} { transition: none !important; animation: none !important; scroll-behavior: auto !important; }`;
         if (state['big-cursor']) css += `* { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 512 512'%3E%3Cpath fill='%23000' stroke='%23fff' stroke-width='16' d='M429.742 319.31L82.49 0l-.231 471.744 105.375-100.826 61.89 141.083 96.559-42.358-61.89-141.083 145.549-9.25z'/%3E%3C/svg%3E"), auto !important; }`;
 
         this.injectCSS(css, 'asw-dynamic-style');
@@ -786,24 +788,37 @@ class AccessibilityWidget {
                 guide.id = 'asw-read-guide';
                 guide.innerHTML = `
                     <style>
-                        .asw-rg-line { position: fixed; left: 0; right: 0; height: 8px; background: rgba(14, 165, 233, 0.4); border-top: 2px solid ${this.config.themeColor}; border-bottom: 2px solid ${this.config.themeColor}; pointer-events: none; z-index: 999999; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
-                        .asw-rg-mask-top, .asw-rg-mask-bot { position: fixed; left: 0; right: 0; background: rgba(0,0,0,0.4); pointer-events: none; z-index: 999998; }
+                        .asw-rg-line { position: fixed; left: 0; right: 0; height: 8px; background: rgba(14, 165, 233, 0.4); border-top: 2px solid ${this.config.themeColor}; border-bottom: 2px solid ${this.config.themeColor}; pointer-events: none; z-index: 999999; box-shadow: 0 0 20px rgba(0,0,0,0.2); will-change: top; }
+                        .asw-rg-mask-top, .asw-rg-mask-bot { position: fixed; left: 0; right: 0; background: rgba(0,0,0,0.4); pointer-events: none; z-index: 999998; will-change: height; }
                         .asw-rg-mask-top { top: 0; } .asw-rg-mask-bot { bottom: 0; }
                     </style>
                     <div id="asw-rg-t" class="asw-rg-mask-top"></div><div id="asw-rg-l" class="asw-rg-line"></div><div id="asw-rg-b" class="asw-rg-mask-bot"></div>
                 `;
                 document.body.appendChild(guide);
 
+                const elT = document.getElementById('asw-rg-t');
+                const elB = document.getElementById('asw-rg-b');
+                const elL = document.getElementById('asw-rg-l');
+                let ticking = false;
+                let clientY = 0;
+
                 this.rgMoveHandler = (e) => {
-                    const gap = 60;
-                    document.getElementById('asw-rg-t').style.height = `${e.clientY - gap}px`;
-                    document.getElementById('asw-rg-b').style.height = `${window.innerHeight - e.clientY - gap}px`;
-                    document.getElementById('asw-rg-l').style.top = `${e.clientY - 4}px`;
+                    clientY = e.clientY;
+                    if (!ticking) {
+                        ticking = true;
+                        requestAnimationFrame(() => {
+                            const gap = 60;
+                            if (elT) elT.style.height = `${clientY - gap}px`;
+                            if (elB) elB.style.height = `${window.innerHeight - clientY - gap}px`;
+                            if (elL) elL.style.top = `${clientY - 4}px`;
+                            ticking = false;
+                        });
+                    }
                 };
-                document.addEventListener('mousemove', this.rgMoveHandler);
+                document.addEventListener('mousemove', this.rgMoveHandler, { passive: true });
             }
         } else if (guide) {
-            document.removeEventListener('mousemove', this.rgMoveHandler);
+            if (this.rgMoveHandler) document.removeEventListener('mousemove', this.rgMoveHandler);
             guide.remove();
         }
     }
@@ -818,11 +833,11 @@ class AccessibilityWidget {
                     <style>
                         .asw-mask-top, .asw-mask-bot {
                             position: fixed; left: 0; right: 0; background: rgba(15, 23, 42, 0.75);
-                            pointer-events: none; z-index: 999998;
+                            pointer-events: none; z-index: 999998; will-change: height;
                         }
                         .asw-mask-top { top: 0; }
                         .asw-mask-bot { bottom: 0; }
-                        .asw-mask-line { position: fixed; left: 0; right: 0; height: 100px; border-top: 2px dashed ${this.config.themeColor}; border-bottom: 2px dashed ${this.config.themeColor}; pointer-events: none; z-index: 999999; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+                        .asw-mask-line { position: fixed; left: 0; right: 0; height: 100px; border-top: 2px dashed ${this.config.themeColor}; border-bottom: 2px dashed ${this.config.themeColor}; pointer-events: none; z-index: 999999; box-shadow: 0 0 30px rgba(0,0,0,0.5); will-change: top; }
                     </style>
                     <div id="asw-mask-t" class="asw-mask-top"></div>
                     <div id="asw-mask-l" class="asw-mask-line"></div>
@@ -830,18 +845,31 @@ class AccessibilityWidget {
                 `;
                 document.body.appendChild(mask);
 
+                const elT = document.getElementById('asw-mask-t');
+                const elB = document.getElementById('asw-mask-b');
+                const elL = document.getElementById('asw-mask-l');
+                let ticking = false;
+                let clientY = 0;
+
                 this.rmMoveHandler = (e) => {
-                    const slit = 100;
-                    const topH = Math.max(0, e.clientY - (slit / 2));
-                    const botH = Math.max(0, window.innerHeight - (e.clientY + (slit / 2)));
-                    document.getElementById('asw-mask-t').style.height = `${topH}px`;
-                    document.getElementById('asw-mask-b').style.height = `${botH}px`;
-                    document.getElementById('asw-mask-l').style.top = `${topH}px`;
+                    clientY = e.clientY;
+                    if (!ticking) {
+                        ticking = true;
+                        requestAnimationFrame(() => {
+                            const slit = 100;
+                            const topH = Math.max(0, clientY - (slit / 2));
+                            const botH = Math.max(0, window.innerHeight - (clientY + (slit / 2)));
+                            if (elT) elT.style.height = `${topH}px`;
+                            if (elB) elB.style.height = `${botH}px`;
+                            if (elL) elL.style.top = `${topH}px`;
+                            ticking = false;
+                        });
+                    }
                 };
-                document.addEventListener('mousemove', this.rmMoveHandler);
+                document.addEventListener('mousemove', this.rmMoveHandler, { passive: true });
             }
         } else if (mask) {
-            document.removeEventListener('mousemove', this.rmMoveHandler);
+            if (this.rmMoveHandler) document.removeEventListener('mousemove', this.rmMoveHandler);
             mask.remove();
         }
     }
@@ -885,13 +913,19 @@ class AccessibilityWidget {
         const all = Array.from(root.querySelectorAll(selector));
         
         this.ttsElements = all.filter(el => {
-            if (el.closest('.asw-wrapper') || el.closest('.asw-floating') || el.closest('#asw-tts-player') || el.closest('#asw-statement-dialog')) return false;
-            const text = el.innerText ? el.innerText.trim() : '';
-            return text.length > 2 && el.offsetParent !== null;
+            if (el.closest('.asw-wrapper, .asw-floating, #asw-tts-player, #asw-statement-dialog')) return false;
+            // Use textContent first to avoid expensive synchronous layout reflow
+            const text = el.textContent ? el.textContent.trim() : '';
+            if (text.length <= 2) return false;
+            return el.offsetParent !== null || (el.getClientRects && el.getClientRects().length > 0);
         });
 
         if (this.ttsElements.length === 0) {
-            this.ttsElements = Array.from(document.querySelectorAll('p, h1, h2, h3')).filter(el => !el.closest('.asw-wrapper') && el.innerText.trim().length > 2);
+            this.ttsElements = Array.from(document.querySelectorAll('p, h1, h2, h3')).filter(el => {
+                if (el.closest('.asw-wrapper, .asw-floating, #asw-tts-player, #asw-statement-dialog')) return false;
+                const text = el.textContent ? el.textContent.trim() : '';
+                return text.length > 2 && (el.offsetParent !== null || (el.getClientRects && el.getClientRects().length > 0));
+            });
         }
     }
 
@@ -1261,6 +1295,32 @@ class AccessibilityWidget {
         if (hex.length == 4) { r = parseInt(hex[1] + hex[1], 16); g = parseInt(hex[2] + hex[2], 16); b = parseInt(hex[3] + hex[3], 16); }
         else if (hex.length == 7) { r = parseInt(hex.substring(1, 3), 16); g = parseInt(hex.substring(3, 5), 16); b = parseInt(hex.substring(5, 7), 16); }
         return `${r}, ${g}, ${b}`;
+    }
+
+    destroy() {
+        this.stopScreenReader();
+        this.handleReadingGuide(false);
+        this.handleReadingMask(false);
+        document.documentElement.classList.remove('asw-dark-mode', 'asw-light-mode');
+        const dynamicStyle = document.getElementById('asw-dynamic-style');
+        if (dynamicStyle) dynamicStyle.remove();
+        if (this.menu) {
+            this.menu.remove();
+            this.menu = null;
+        }
+        const floating = document.querySelector('.asw-floating');
+        if (floating) floating.remove();
+        const toast = document.getElementById('asw-toast');
+        if (toast) toast.remove();
+        const stmt = document.getElementById('asw-statement-dialog');
+        if (stmt) stmt.remove();
+        if (this.audioCtx && this.audioCtx.state !== 'closed') {
+            this.audioCtx.close().catch(() => {});
+            this.audioCtx = null;
+        }
+        if (this._keyHandler) {
+            window.removeEventListener('keydown', this._keyHandler);
+        }
     }
 }
 

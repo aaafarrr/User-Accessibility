@@ -133,9 +133,13 @@ Clear visual boundaries and highlights on all links and headings to streamline r
 ## 🚀 Quick Start
 
 ### 1. Include the Script
-Simply include `UserAccessibility.js` right before the closing `</body>` tag on your website:
+Include `UserAccessibility.min.js` (for production) or `UserAccessibility.js` right before the closing `</body>` tag on your website:
 
 ```html
+<!-- Production Minified (Recommended) -->
+<script src="UserAccessibility.min.js"></script>
+
+<!-- Or Source Version -->
 <script src="UserAccessibility.js"></script>
 ```
 
@@ -172,6 +176,26 @@ You can easily customize the widget's theme color, default language, dock positi
 | `defaultLang` | `String` | `"en"` | Default UI language (`"en"` or `"id"`). Automatically falls back to document language. |
 | `position` | `String` | `"left"` | Initial dock placement of the floating trigger and modal (`"left"` or `"right"`). |
 | `container` | `HTMLElement` | `document.body` | DOM element where the widget modal and trigger button are mounted. |
+
+### Programmatic API
+
+```javascript
+// Toggle menu modal
+window.accessibilityApp.toggleMenu();
+
+// Switch dock position (left / right)
+window.accessibilityApp.togglePosition();
+
+// Reset all accessibility overrides to default
+window.accessibilityApp.reset();
+
+// Screen reader controls
+window.accessibilityApp.startScreenReader();
+window.accessibilityApp.stopScreenReader();
+
+// Clean up all DOM elements and event listeners (SPA unmount)
+window.accessibilityApp.destroy();
+```
 
 ---
 

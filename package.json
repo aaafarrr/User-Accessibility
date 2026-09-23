@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "A premium, lightweight, zero-dependency Accessibility Widget built with Vanilla JavaScript. Fully compliant with WCAG 2.1 & 2.2 Level AA guidelines.",
   "main": "UserAccessibility.js",
+  "unpkg": "UserAccessibility.min.js",
+  "jsdelivr": "UserAccessibility.min.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "terser UserAccessibility.js -c -m --comments \"/^!/\" -o UserAccessibility.min.js",
+    "test": "node -c UserAccessibility.js"
   },
   "keywords": [
     "accessibility",
@@ -24,5 +27,8 @@
   "repository": {
     "type": "git",
     "url": ""
+  },
+  "devDependencies": {
+    "terser": "^5.51.2"
   }
 }
