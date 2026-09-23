@@ -340,7 +340,7 @@
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
             setTimeout(() => {
-                if (urlParams.get('open') === '1' || urlParams.get('demo')) {
+                if (urlParams.get('open') === '1' || urlParams.get('demo') === 'menu' || urlParams.get('demo') === 'dark' || urlParams.get('demo') === 'features') {
                     if (window.accessibilityApp) {
                         window.accessibilityApp.toggleMenu();
                     }
@@ -364,13 +364,12 @@
                     if (focusBtn) focusBtn.click();
                 }
                 if (urlParams.get('demo') === 'tts') {
-                    const ttsBtn = document.querySelector('.asw-btn[data-key="text-to-speech"]');
-                    if (ttsBtn) ttsBtn.click();
-                    const testCard = document.querySelector('#tts p');
-                    if (testCard && window.accessibilityApp && window.accessibilityApp.ttsElements) {
-                        const idx = window.accessibilityApp.ttsElements.indexOf(testCard);
-                        if (idx !== -1) {
-                            window.accessibilityApp.ttsCurrentIndex = idx;
+                    if (window.accessibilityApp) {
+                        window.accessibilityApp.startScreenReader(false);
+                        const testCard = document.querySelector('#tts p') || document.querySelector('#tts');
+                        if (testCard && window.accessibilityApp.ttsElements) {
+                            const idx = window.accessibilityApp.ttsElements.indexOf(testCard);
+                            window.accessibilityApp.ttsCurrentIndex = idx !== -1 ? idx : 1;
                             window.accessibilityApp.ttsPlayCurrent(false);
                         }
                     }

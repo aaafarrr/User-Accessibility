@@ -937,7 +937,7 @@ class AccessibilityWidget {
                     }
                     .asw-tts-speed-badge:hover { background: rgba(56, 189, 248, 0.25); }
                     .asw-tts-info-box {
-                        display: flex; align-items: center; gap: 10px; max-width: 420px;
+                        display: flex; align-items: center; gap: 10px; max-width: 560px;
                         overflow: hidden; padding-left: 6px; border-left: 1px solid rgba(255, 255, 255, 0.15);
                     }
                     .asw-tts-waves { display: flex; align-items: center; gap: 3px; height: 16px; }
@@ -955,7 +955,7 @@ class AccessibilityWidget {
                     }
                     .asw-tts-transcript {
                         font-size: 13px; font-weight: 500; color: #f1f5f9; white-space: nowrap;
-                        overflow: hidden; text-overflow: ellipsis; max-width: 320px;
+                        overflow: hidden; text-overflow: ellipsis; max-width: 460px;
                     }
                     .asw-tts-progress-tag {
                         font-size: 11px; font-weight: 700; color: #94a3b8; background: rgba(0,0,0,0.3);
