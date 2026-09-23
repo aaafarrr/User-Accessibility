@@ -138,7 +138,20 @@ Clear visual boundaries and highlights on all links and headings to streamline r
 ## 🚀 Quick Start
 
 ### 1. Include the Script
-Include `UserAccessibility.min.js` (for production) or `UserAccessibility.js` right before the closing `</body>` tag on your website:
+
+#### ⚡ Option A: Instant Online CDN / Raw GitHub (No Download Needed)
+You can include the widget directly in any HTML file without downloading anything:
+
+```html
+<!-- Direct Online via Raw GitHub -->
+<script src="https://raw.githubusercontent.com/aaafarrr/User-Accessibility/refs/heads/main/UserAccessibility.js"></script>
+
+<!-- Or via jsDelivr Fast CDN (Production Minified) -->
+<script src="https://cdn.jsdelivr.net/gh/aaafarrr/User-Accessibility@main/UserAccessibility.min.js"></script>
+```
+
+#### 📦 Option B: Local Self-Hosted Files
+Include `UserAccessibility.min.js` (recommended) or `UserAccessibility.js` right before the closing `</body>` tag on your website:
 
 ```html
 <!-- Production Minified (Recommended) -->
