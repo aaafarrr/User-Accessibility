@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive Demo for User Accessibility Widget - Vanilla JS A11y Solution">
+    <title>User Accessibility Widget Demo ♿</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --bg-page: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding-bottom: 80px;
+        }
+
+        header.navbar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            max-width: 1100px;
+            margin: 40px auto 30px;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin: 0 auto 30px;
+        }
+
+        .interactive-banner {
+            background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            text-align: center;
+            margin: 0 auto 40px;
+            max-width: 1050px;
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.3);
+            animation: pulse-border 3s infinite alternate;
+        }
+
+        @keyframes pulse-border {
+            from { transform: translateY(0); }
+            to { transform: translateY(-4px); }
+        }
+
+        .interactive-banner h3 {
+            font-size: 1.35rem;
+            margin-bottom: 8px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .test-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .test-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08);
+        }
+
+        .test-card h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+
+        .test-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .test-card a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .test-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 12px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Animated rotating sample to test "Stop Animations" */
+        .animated-box {
+            display: inline-block;
+            background: #f0fdf4;
+            border: 1px dashed #22c55e;
+            color: #15803d;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span>♿</span> UserAccessibility
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#tts">Text to Speech</a></li>
+                <li><a href="#media">Media & Visuals</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Header -->
+    <section class="hero">
+        <span class="badge">Open Source • Pure Vanilla JavaScript</span>
+        <h1>Make Your Website <span>Inclusive & Accessible</span> For Everyone</h1>
+        <p>This interactive playground lets you experience all features of the <strong>Accessibility Widget</strong> in real-time. Click the floating blue button at the bottom-left corner to begin!</p>
+    </section>
+
+    <!-- Interactive Guide Banner -->
+    <div class="container">
+        <div class="interactive-banner">
+            <h3>👈 Click the Blue Accessibility Trigger Button at the Bottom Left</h3>
+            <p>Open the accessibility menu to adjust text sizing, switch to Dark Mode, enable Dyslexia-friendly font, or activate the Audio Reader (TTS).</p>
+        </div>
+    </div>
+
+    <!-- Feature Testing Cards -->
+    <main class="container" id="main">
+        <div class="grid-cards">
+            
+            <!-- Card 1: Text & Dyslexia -->
+            <div class="test-card">
+                <h2>📖 1. Typography & Font Controls</h2>
+                <p>Test the <strong>Font Size (+ / -)</strong>, <strong>Dyslexia Font</strong>, Line Height, and Text Alignment (Justify / Center) on this section.</p>
+                <p><em>"Digital accessibility is not a luxury or an afterthought—it is a fundamental human right for every web user worldwide."</em></p>
+                <p>Notice how letter-spacing and word-spacing adapt smoothly when toggled from the widget panel.</p>
+            </div>
+
+            <!-- Card 2: Text to Speech -->
+            <div class="test-card" id="tts">
+                <h2>🗣️ 2. Voice Assistant (Text-to-Speech)</h2>
+                <p>Activate the <strong>Text To Speech</strong> button inside the accessibility menu.</p>
+                <p style="background: #f1f5f9; padding: 12px; border-radius: 8px; border-left: 4px solid var(--primary);">
+                    👉 <strong>Select or highlight this sentence with your mouse</strong>, or hover over this test link: <a href="#tts">Listen To This Automated Narration!</a>
+                </p>
+                <p>The widget uses the native browser <code>Web Speech API</code> without requiring external server calls or API tokens.</p>
+            </div>
+
+            <!-- Card 3: Color, Dark Mode & Contrast -->
+            <div class="test-card">
+                <h2>🎨 3. Dark Mode & High Contrast</h2>
+                <p>Experience tailored visual themes for sensitive eyes and low-light environments:</p>
+                <ul style="margin-left: 20px; margin-bottom: 14px; color: var(--text-muted);">
+                    <li><strong>Dark Mode:</strong> Deep navy slate background with crisp, readable text.</li>
+                    <li><strong>Invert Colors:</strong> Negative contrast with photo color protection.</li>
+                    <li><strong>High Contrast & Monochrome:</strong> Sharp boundaries or pure grayscale.</li>
+                </ul>
+                <p>Also try <strong>Highlight Title</strong> and <strong>Highlight Links</strong> for fast visual scanning.</p>
+            </div>
+
+            <!-- Card 4: Media & Animations -->
+            <div class="test-card" id="media">
+                <h2>🖼️ 4. Hide Images & Freeze Animations</h2>
+                <p>Toggle <strong>Hide Images</strong> from the menu to remove visual clutter and conceal the sample photo below:</p>
+                <img class="test-image" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Serene Tropical Beach">
+                
+                <p style="margin-top: 14px;">Toggle <strong>Stop Animations</strong> to halt motion effects on this bouncing element:</p>
+                <div class="animated-box">⚡ Bouncing Motion Box (Stop Animations Test)</div>
+            </div>
+
+            <!-- Card 5: WCAG Focus Outline & Shortcuts -->
+            <div class="test-card">
+                <h2>🎯 5. Focus Outline & Keyboard Access</h2>
+                <p>Fully compliant with <strong>WCAG 2.4.7 (Focus Visible)</strong> and <strong>WCAG 2.1 (Keyboard Accessible)</strong>:</p>
+                <ul style="margin-left: 20px; margin-bottom: 14px; color: var(--text-muted);">
+                    <li><strong>Keyboard Shortcut:</strong> Press <kbd style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-weight:700;">Alt + A</kbd> anywhere to open or close the menu.</li>
+                    <li><strong>Focus Outline:</strong> Enable in menu, then press <kbd style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-weight:700;">Tab</kbd> to see ultra-bright neon focus rings.</li>
+                </ul>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button style="padding:8px 16px; border-radius:8px; border:1px solid #cbd5e1; background:#fff; cursor:pointer;">Tab Target 1</button>
+                    <button style="padding:8px 16px; border-radius:8px; border:1px solid #cbd5e1; background:#fff; cursor:pointer;">Tab Target 2</button>
+                    <a href="#main" style="padding:8px 16px; border-radius:8px; background:#0ea5e9; color:#fff; text-decoration:none;">Skip Link</a>
+                </div>
+            </div>
+
+            <!-- Card 6: Reading Mask & Guide -->
+            <div class="test-card">
+                <h2>📏 6. Reading Mask & Spotlight</h2>
+                <p>Tailored for neurodiverse users, ADHD, and cognitive ease:</p>
+                <ul style="margin-left: 20px; margin-bottom: 14px; color: var(--text-muted);">
+                    <li><strong>Reading Guide:</strong> A horizontal guiding ruler tracking the mouse pointer.</li>
+                    <li><strong>Reading Mask:</strong> Dims the entire page except for a horizontal spotlight slit around your reading line!</li>
+                </ul>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>User Accessibility Widget • Fully WCAG 2.1 & 2.2 Level AA Compliant • Built with ❤️ • MIT License</p>
+    </footer>
+
+    <!-- Auto-initialize Widget -->
+    <script src="UserAccessibility.js"></script>
+    <script>
+        // Support URL query parameters for automated demos and screenshots
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            setTimeout(() => {
+                if (urlParams.get('open') === '1' || urlParams.get('demo')) {
+                    if (window.accessibilityApp) {
+                        window.accessibilityApp.toggleMenu();
+                    }
+                }
+                if (urlParams.get('demo') === 'dark') {
+                    const darkBtn = document.querySelector('.asw-btn[data-key="dark-mode"]');
+                    if (darkBtn) darkBtn.click();
+                    const fontBtn = document.querySelector('.asw-btn[data-key="readable-font"]');
+                    if (fontBtn) fontBtn.click();
+                    const linkBtn = document.querySelector('.asw-btn[data-key="highlight-links"]');
+                    if (linkBtn) linkBtn.click();
+                    const titleBtn = document.querySelector('.asw-btn[data-key="highlight-title"]');
+                    if (titleBtn) titleBtn.click();
+                }
+                if (urlParams.get('demo') === 'features') {
+                    const linkBtn = document.querySelector('.asw-btn[data-key="highlight-links"]');
+                    if (linkBtn) linkBtn.click();
+                    const titleBtn = document.querySelector('.asw-btn[data-key="highlight-title"]');
+                    if (titleBtn) titleBtn.click();
+                    const focusBtn = document.querySelector('.asw-btn[data-key="focus-outline"]');
+                    if (focusBtn) focusBtn.click();
+                }
+                if (urlParams.get('demo') === 'tts') {
+                    const ttsBtn = document.querySelector('.asw-btn[data-key="text-to-speech"]');
+                    if (ttsBtn) ttsBtn.click();
+                    const testCard = document.querySelector('#tts p');
+                    if (testCard && window.accessibilityApp && window.accessibilityApp.ttsElements) {
+                        const idx = window.accessibilityApp.ttsElements.indexOf(testCard);
+                        if (idx !== -1) {
+                            window.accessibilityApp.ttsCurrentIndex = idx;
+                            window.accessibilityApp.ttsPlayCurrent(false);
+                        }
+                    }
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

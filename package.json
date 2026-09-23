@@ -1,0 +1,28 @@
+{
+  "name": "user-accessibility-widget",
+  "version": "1.0.0",
+  "description": "A premium, lightweight, zero-dependency Accessibility Widget built with Vanilla JavaScript. Fully compliant with WCAG 2.1 & 2.2 Level AA guidelines.",
+  "main": "UserAccessibility.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "accessibility",
+    "widget",
+    "vanilla-js",
+    "a11y",
+    "wcag",
+    "wcag21",
+    "wcag22",
+    "ada-compliance",
+    "text-to-speech",
+    "dyslexia",
+    "screen-reader"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
