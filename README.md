@@ -3,10 +3,10 @@
 # ♿ User Accessibility Widget (a11y)
 ### *Empower Every User: Lightweight, Plug-and-Play Accessibility for the Modern Web*
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg?style=for-the-badge&logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Zero Dependencies](https://img.shields.io/badge/Dependencies-0%20(Vanilla)-green.svg?style=for-the-badge)](https://github.com)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](http://makeapullrequest.com)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-0%20(Vanilla)-green.svg?style=for-the-badge)](https://github.com/aaafarrr/User-Accessibility)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](https://github.com/aaafarrr/User-Accessibility/pulls)
 [![Accessibility](https://img.shields.io/badge/WCAG-2.1%20%26%202.2%20AA%20Compliant-purple.svg?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 
 <br />
