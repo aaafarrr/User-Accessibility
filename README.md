@@ -205,8 +205,8 @@ Test all features locally by launching `index.html`:
 
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/your-username/user-accessibility-widget.git
-   cd user-accessibility-widget
+   git clone https://github.com/aaafarrr/User-Accessibility.git
+   cd User-Accessibility
    ```
 2. Open `index.html` in your favorite browser.
 3. Click the accessibility icon in the bottom-left corner or press <kbd>Alt + A</kbd> to explore text scaling, dark mode, focus outlines, reading mask, text-to-speech, and more!

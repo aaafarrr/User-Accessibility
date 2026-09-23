@@ -1,11 +1,16 @@
-/**
- * Accessibility Widget Premium - Vanilla JS
+/*!
+ * User Accessibility Widget (a11y) - Vanilla JS
  * Dependency-free, Lightweight, and Fully WCAG 2.1 & 2.2 Level AA Compliant
+ *
+ * @repository  https://github.com/aaafarrr/User-Accessibility
+ * @author      aaafarrr (https://github.com/aaafarrr)
+ * @license     MIT (https://opensource.org/licenses/MIT)
+ *
  * Features:
  * - Smart Screen Reader with UserWay-style Navigable Floating Player Bar (Prev, Play/Pause, Next, Speed, Close)
  * - Web Audio API Synthetic Transition Chimes (Sound cues on paragraph transition)
  * - Real-time Visual Sentence & Paragraph Highlighting with Auto-Scroll
- * - Click-to-Read and Keyboard Hotkeys (Alt+Right / Alt+Left / Alt+Space)
+ * - Click-to-Read and Keyboard Hotkeys (Alt+Right / Alt+Left / Alt+Space / Alt+A)
  * - Text scaling, Dyslexia typography, Dark Mode, Invert Colors, Focus Outline, Reading Mask & Guide
  * - Full WCAG 2.1/2.2 AA Compliance Statement, Position Switcher, and Bilingual Localization (EN / ID)
  */

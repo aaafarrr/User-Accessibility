@@ -22,12 +22,16 @@
     "dyslexia",
     "screen-reader"
   ],
-  "author": "",
+  "author": "aaafarrr (https://github.com/aaafarrr)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/aaafarrr/User-Accessibility.git"
   },
+  "bugs": {
+    "url": "https://github.com/aaafarrr/User-Accessibility/issues"
+  },
+  "homepage": "https://github.com/aaafarrr/User-Accessibility#readme",
   "devDependencies": {
     "terser": "^5.51.2"
   }
